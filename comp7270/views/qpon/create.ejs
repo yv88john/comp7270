@@ -1,0 +1,106 @@
+<form action="/qpon/create" method="post">
+  <div class="container mt-6">
+    <div class="columns">
+      <div class="column is-half">
+        <div class="field">
+            <label class="label">Title</label>
+            <div class="control">
+                <input class="input" type="text" name="title" required>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Restuarant</label>
+            <div class="control">
+                <input class="input" type="text" name="restuarant" required>
+            </div>
+        </div>
+
+        <div class="columns">
+
+          <div class="column level-left">
+            <div class="field">
+                <label class="label">Region</label>
+                <div class="control">
+                  <div class="select">
+                    <select name="region">
+                      <option>HK Islands</option>
+                      <option>Kowloon</option>
+                      <option>New Territories</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+          </div>
+
+          <div class="column level-right">
+            <label class="label">Mall</label>
+                <div class="control">
+                  <div class="select">
+                    <select name="mall">
+                    <option>IFC Mall</option>
+                    <option>Pacific Place</option>
+                    <option>Times Square</option>
+                    <option>Elements</option>
+                    <option>Harbour City</option>
+                    <option>Festival Walk</option>
+                    <option>MegaBox</option>
+                    <option>APM</option>
+                    <option>New Town Plaza</option>
+                    <option>Tsuen Wan Plaza</option>
+                    </select>
+                  </div>
+                </div>
+          </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Image</label>
+            <div class="control">
+                <input class="input" type="text" name="image" required>
+            </div>
+        </div>
+      </div>
+
+    <div class="column is-half">
+
+      <div class="columns">
+        <div class="column">
+          <div class="field">
+              <label class="label">Quota</label>
+              <div class="control">
+                  <input class="input" type="number" name="quota" required>
+              </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+              <label class="label">Coins</label>
+              <div class="control">
+                  <input class="input" type="number" name="coins" required>
+              </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="field">
+          <label class="label">Date</label>
+          <div class="control">
+              <input class="input" type="text" name="date" required>
+          </div>
+      </div>
+
+      <div class="field">
+          <label class="label">Detail</label>
+            <textarea class="textarea" name="detail" placeholder="e.g. Hello world"></textarea>
+      </div>
+
+      <div class="buttons">
+        <button type="submit" class="button is-primary">Submit</button>
+      </div>
+    </div>
+    </div>
+  </div>
+</form>
+
