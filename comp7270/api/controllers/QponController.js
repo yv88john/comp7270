@@ -6,6 +6,14 @@
  */
 
 module.exports = {
+
+  list: async function (req, res) {
+
+      var qpons = await Qpon.find();
+
+      return res.view('qpon/list', { qpons: qpons });
+  },
+
   create: async function (req, res) {
 
     if (req.method == "GET") return res.view('qpon/create');
