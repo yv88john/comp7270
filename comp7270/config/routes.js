@@ -1,5 +1,8 @@
+
 module.exports.routes = {
-  '/': { view: 'pages/homepage' },
+  'GET /': 'QponController.main',
+  'GET /qpon/search':'QponController.search',
+  'GET /qpon/read/:id':'QponController.read',
   'GET /qpon/create': 'QponController.create',
   'POST /qpon/create': 'QponController.create',
   'GET /qpon/update/:id':'QponController.update',

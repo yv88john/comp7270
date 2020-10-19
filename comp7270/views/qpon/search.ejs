@@ -1,0 +1,193 @@
+<form action="#" id="my-form" method="GET">
+<div class="container mt-6">
+    <div class="columns">
+        <% qpons.forEach( function(qpon) { 
+              %> 
+                <div class="column box">
+                  <div class="box-image">
+                    <figure class="image is-4by3">
+                      <img src="<%= qpon.image%>" >
+                    </figure>
+                  </div>
+                  <div class="box-content">
+                    <div class="content">
+                      <%= qpon.restaurant%>
+                      <br>
+                      <%= qpon.title%>
+                      <br>
+                      Coins : <%= qpon.coins%>
+                    </div>
+                  </div>
+                </div>
+             <%
+           }); %>
+        
+        <div class="column box">
+
+            <div class="field">
+                <label class="label">Region</label>
+                <div class="control">
+                    <div class="select">
+                        <select name="region" id="region">
+                            <option>Not Specified</option>
+                            <option>HK Islands</option>
+                            <option>Kowloon</option>
+                            <option>New Territories</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Max Coins</label>
+                <div class="control">
+                    <input class="input" type="number" name="max_coin" id="max_coin" >
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Min Coins</label>
+                <div class="control">
+                    <input class="input" type="number" name="min_coin" id="min_coin">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Valid On</label>
+                <div class="control">
+                    <input class="input" type="text" name="valid_on" id="valid_on">
+                    <input class="input" type="hidden"" name="offset" id="offset">
+                    <input class="input" type="hidden"" name="limit" id="limit">
+                    
+                </div>
+            </div>
+            <hr>
+            <div class="buttons">
+                <button type="button" onclick="redirectSearch();" style="display:none;" id="btn_submit" class="button is-primary">Search</button>
+            </div>
+            <script>
+
+                $(document).ready(function(){
+                    $("#max_coin").val("<%= req.query.max_coin %>");
+                    $("#min_coin").val("<%= req.query.min_coin %>");
+                    $("#valid_on").val("<%= req.query.valid_on %>");
+                    $("#offset").val("<%= req.query.offset %>");
+                    $("#limit").val("<%= req.query.limit %>");
+                    $("#region").val("<%= req.query.region ? req.query.region : 'Not Specified' %>");
+                    changeEventHandler();
+                    setPagination();
+                });
+
+                $("input").keyup(function(){
+                   changeEventHandler();
+                });
+
+                $("select").change(function(){
+                    changeEventHandler();
+                });
+
+                function changeEventHandler() {
+                    const max_coin = $("#max_coin").val();
+                    const min_coin = $("#min_coin").val();
+                    const valid_on = $("#valid_on").val();
+                    const region = $("#region").val();
+
+                    if((!max_coin) && (!min_coin) && (!valid_on) && (region=="Not Specified")) {
+                        $("#btn_submit").hide();
+                    } else {
+                        $("#btn_submit").show();
+                    }
+                }
+
+                function redirectSearch() {
+                    window.location.replace("/qpon/search?"+prepareQueryString());
+                }
+
+                function prepareQueryString() {
+                    let formData = new FormData($("#my-form")[0]);
+                    let params = new URLSearchParams(formData);
+                    return params.toString();
+                };
+
+                function getURLwithOffset(offset) {
+                    let formData = new FormData($("#my-form")[0]);
+                    let params = new URLSearchParams(formData);
+                    //params.set("offset",offset);
+                    $("#offset").val(offset);
+                    $("#limit").val(2);
+                    return window.location.origin+"/qpon/search?"+prepareQueryString();
+                }
+
+                function setPagination() {
+
+                        var previousButton = document.getElementById("previousButton");
+                        var nextButton = document.getElementById("nextButton");
+                        var currentLink = document.getElementById("currentLink");
+                        var previousLink = document.getElementById("previousLink");
+                        var nextLink = document.getElementById("nextLink");
+                        var firstLink = document.getElementById("firstLink");
+                        var lastLink = document.getElementById("lastLink");
+
+                        var numOfRecords = parseInt("<%= numOfRecords %>");
+                        var limit = Math.max(parseInt("<%= req.query.limit %>"), 2) || 2;
+                        var offset = Math.max(parseInt("<%= req.query.offset %>"), 0) || 0;
+
+                        debugger;
+
+                        
+                        firstLink.href = getURLwithOffset(0);
+                        previousButton.href = getURLwithOffset(offset - limit);
+                        previousLink.href = getURLwithOffset(offset - limit);
+                        currentLink.href = getURLwithOffset(offset);
+                        nextLink.href = getURLwithOffset(offset + limit);
+                        nextButton.href = getURLwithOffset(offset + limit);
+                        lastLink.href = getURLwithOffset(Math.ceil(numOfRecords / limit));
+                            
+                        var currentPageNumber = Math.floor(offset / limit) + 1;
+
+                        previousLink.innerHTML = currentPageNumber - 1;
+                        currentLink.innerHTML = currentPageNumber;
+                        nextLink.innerHTML = currentPageNumber + 1;
+                        lastLink.innerHTML = Math.ceil(numOfRecords / limit); 
+
+                        if (offset < limit) {
+                            previousButton.setAttribute("disabled", true);
+                            previousButton.href = "";
+                            previousLink.style.display = "none";
+                        }
+
+                        if (offset + limit >= numOfRecords) {
+                            nextButton.setAttribute("disabled", true);
+                            nextButton.href = "";
+                            nextLink.style.display = "none";
+                        }
+                }
+            </script>
+        </div>
+    </div>
+    <nav class="pagination" role="navigation" aria-label="pagination">
+        <a class="pagination-previous" id="previousButton">Previous</a>
+        <a class="pagination-next" id="nextButton">Next page</a>
+        <ul class="pagination-list">
+            <li>
+                <a class="pagination-link" id="firstLink">1</a>
+            </li>
+            <li>
+                <span class="pagination-ellipsis">&hellip;</span>
+            </li>
+            <li>
+                <a class="pagination-link" id="previousLink">45</a>
+            </li>
+            <li>
+                <a class="pagination-link is-current" id="currentLink">46</a>
+            </li>
+            <li>
+                <a class="pagination-link" id="nextLink">47</a>
+            </li>
+            <li>
+                <span class="pagination-ellipsis">&hellip;</span>
+            </li>
+            <li>
+                <a class="pagination-link" id="lastLink">86</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</form>

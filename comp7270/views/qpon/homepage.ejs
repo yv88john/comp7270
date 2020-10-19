@@ -1,0 +1,97 @@
+
+
+  <section class="section">
+    <div class=" columns">
+      <div class="column">
+        <h1 class="title">Q-Pon</h1>
+        <h2 class="subtitle">
+          Redeem your coins for dining coupons.
+        </h2>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="columns">
+      <div class="column">
+        
+      <div class="heading box">HK Islands</div>
+      <% qpons.forEach( function(qpon) { 
+
+        if(qpon.region == "HK Islands") {
+          %> 
+            <a href="./qpon/read/<%= qpon.id %>">
+            <div class="box">
+              <div class="box-image">
+                <figure class="image is-4by3">
+                  <img src="<%= qpon.image%>" >
+                </figure>
+              </div>
+              <div class="box-content">
+                <div class="content">
+                  <%= qpon.restaurant%>
+                  <br>
+                  <%= qpon.title%>
+                  <br>
+                  Coins : <%= qpon.coins%>
+                </div>
+              </div>
+            </div>
+            </a>
+         <%}
+       }); %>
+      </div>
+
+      <div class="column">
+        <div class="heading box">Kowloon</div>
+        <% qpons.forEach( function(qpon) { 
+          if(qpon.region == "Kowloon") {
+            %> 
+              <div class="box">
+                <div class="box-image">
+                  <figure class="image is-4by3">
+                    <img src="<%= qpon.image%>" >
+                  </figure>
+                </div>
+                <div class="box-content">
+                  <div class="content">
+                    <%= qpon.restaurant%>
+                    <br>
+                    <%= qpon.title%>
+                    <br>
+                    Coins : <%= qpon.coins%>
+                  </div>
+                </div>
+              </div>
+           <%}
+         }); %>
+      </div>
+
+      <div class="column">
+        
+        <div class="heading box">New Territories</div>
+        <% qpons.forEach( function(qpon) { 
+
+          if(qpon.region == "New Territories") {
+            %> 
+              <div class="box">
+                <div class="box-image">
+                  <figure class="image is-4by3">
+                    <img src="<%= qpon.image%>" >
+                  </figure>
+                </div>
+                <div class="box-content">
+                  <div class="content">
+                    <%= qpon.restaurant%>
+                    <br>
+                    <%= qpon.title%>
+                    <br>
+                    Coins : <%= qpon.coins%>
+                  </div>
+                </div>
+              </div>
+           <%}
+         }); %>
+      </div>
+    </div>
+  </section>
