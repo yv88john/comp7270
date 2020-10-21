@@ -47,6 +47,7 @@
         <% qpons.forEach( function(qpon) { 
           if(qpon.region == "Kowloon") {
             %> 
+            <a href="./qpon/read/<%= qpon.id %>">
               <div class="box">
                 <div class="box-image">
                   <figure class="image is-4by3">
@@ -63,6 +64,7 @@
                   </div>
                 </div>
               </div>
+            </a>
            <%}
          }); %>
       </div>
@@ -74,6 +76,7 @@
 
           if(qpon.region == "New Territories") {
             %> 
+            <a href="./qpon/read/<%= qpon.id %>">
               <div class="box">
                 <div class="box-image">
                   <figure class="image is-4by3">
@@ -90,6 +93,7 @@
                   </div>
                 </div>
               </div>
+            </a>
            <%}
          }); %>
       </div>
