@@ -13,7 +13,6 @@ module.exports.bootstrap = async function() {
 
   sails.bcrypt = require('bcryptjs');
   var salt = await sails.bcrypt.genSalt(10);
-
   var hash = await sails.bcrypt.hash('123456', salt);
 
   await User.createEach([
@@ -21,6 +20,17 @@ module.exports.bootstrap = async function() {
       { username: "boss", password: hash }
       // etc.
   ]);
+
+    if (await Person.count() > 0) {
+        return;
+    }
+
+    await Person.createEach([
+        { name: "Martin Choy", age: 23 },
+        { name: "Kenny Cheng", age: 22 }
+        // etc.
+    ]);
+
     if (await Qpon.count() > 0) {
         return;
     }
@@ -33,5 +43,17 @@ module.exports.bootstrap = async function() {
     {"date":"2020/10/05","createdAt":1603279786495,"updatedAt":1603279786495,"id":5,"title":"Kowloon Second Restaurant Title","restaurant":"Kowloon Second Restaurant","region":"Kowloon","mall":"Harbour City","image":"https://cdn.lifestyleasia.com/wp-content/uploads/sites/2/2020/06/01172027/1200skye-outdoor-terrece-161208212630.jpg","quota":600,"coins":700,"expiryDate":"","detail":"Kowloon Second Restaurant Detail","_id":5},
     {"date":"2020/10/06","createdAt":1603279842023,"updatedAt":1603279842023,"id":6,"title":"Kowloon Third Restaurant Title","restaurant":"Kowloon Third Restaurant","region":"Kowloon","mall":"MegaBox","image":"https://cdn.lifestyleasia.com/wp-content/uploads/sites/2/2020/06/01172325/Felix.jpg","quota":800,"coins":900,"expiryDate":"","detail":"Kowloon Third Restaurant Detail","_id":6},
     ]);
+
+    async function generateUsers() {
+      const martin = await Person.findOne({name: "Martin Choy"});
+      const kenny = await Person.findOne({name: "Kenny Cheng"});
+      const admin = await User.findOne({username: "admin"});
+      const boss = await User.findOne({username: "boss"});
+
+      await User.addToCollection(admin.id, 'clients').members(kenny.id);
+      await User.addToCollection(boss.id, 'clients').members([martin.id, kenny.id]);
+    }
+
+    return generateUsers();
 
 };
