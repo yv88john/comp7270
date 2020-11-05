@@ -16,8 +16,10 @@ module.exports.bootstrap = async function() {
   var hash = await sails.bcrypt.hash('123456', salt);
 
   await User.createEach([
-      { username: "admin", password: hash },
-      { username: "boss", password: hash }
+      { username: "admin", password: hash, role:"admin" },
+      { username: "tester", password: hash, role:"tester" },
+      { username: "visitor", password:hash, role:"visitor"}
+
       // etc.
   ]);
 
@@ -45,13 +47,9 @@ module.exports.bootstrap = async function() {
     ]);
 
     async function generateUsers() {
-      const martin = await Person.findOne({name: "Martin Choy"});
-      const kenny = await Person.findOne({name: "Kenny Cheng"});
       const admin = await User.findOne({username: "admin"});
-      const boss = await User.findOne({username: "boss"});
+      const tester = await User.findOne({username: "tester"});
 
-      await User.addToCollection(admin.id, 'clients').members(kenny.id);
-      await User.addToCollection(boss.id, 'clients').members([martin.id, kenny.id]);
     }
 
     return generateUsers();

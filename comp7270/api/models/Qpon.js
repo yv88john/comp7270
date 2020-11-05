@@ -42,6 +42,11 @@ module.exports = {
 
     detail: {
       type:"string"
+    },
+
+    owners: {
+      collection: 'User',
+      via: 'qpons'
     }
   },
 

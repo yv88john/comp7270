@@ -92,12 +92,21 @@ $(document).ready(function() {
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
+        <% if(!req.session.username) {  %>
           <a class="button is-primary">
             <strong>Sign up</strong>
           </a>
-          <a class="button is-light">
+          <a class="button is-light" href="/user/login">
             Log in
           </a>
+        <% } %>
+        <% if(req.session.username) { %>
+          <p>Hi.  </p> <%= req.session.username %>
+          <button class="button is-light" id="btnLogOut" href="/user/logout">
+            Log out
+          </button>
+
+       <% } %>
         </div>
       </div>
     </div>
@@ -183,7 +192,31 @@ $(document).ready(function() {
               $(".navbar-burger").toggleClass("is-active");
               $(".navbar-menu").toggleClass("is-active");
           });
+
+          $("#btnLogOut").click(async function(){
+            logout();
+          });
         });
+
+
+
+    async function logout() {
+        var response = await fetch("/user/logout", {
+            method: "GET",
+        });
+
+        if (response.ok) {
+            //var user = await response.json();
+            alert("You have logged out !");
+            window.location.href = "/";
+            //location.reload(true);
+        } else if (response.status == 401) {
+            var msg = await response.json();
+            alert(msg);
+        } else {
+            alert(response.statusText);
+        }
+    }
   </script>
 
   </body>

@@ -42,7 +42,7 @@ logout: async function (req, res) {
 
     	if (err) return res.serverError(err);
 
-        return res.json(req.session.id);
+        return res.ok();
     });
 },
 
@@ -117,6 +117,17 @@ remove: async function (req, res) {
 
     return res.ok();
 },
+
+delete: async function (req, res) {
+
+    var deletedPerson = await User.destroyOne(req.params.id);
+
+    if (!deletedPerson) return res.notFound();
+
+    // return res.ok();
+
+    return res.redirect("/");
+  },
 
 };
 

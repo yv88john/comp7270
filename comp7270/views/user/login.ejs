@@ -1,4 +1,4 @@
-<form class="container" action="/user/login" method="POST">
+<form class="container" action="/user/login" method="POST" onsubmit="submitForm(this);return false">
     <div class="field">
       <p class="control has-icons-left has-icons-right">
         <input class="input" type="text" placeholder="Username" name="username">
@@ -23,3 +23,25 @@
       </p>
     </div>
 </form>
+
+<script>
+    async function submitForm(formElem) {
+
+        var response = await fetch(formElem.action, {
+            method: formElem.method,
+            body: new FormData(formElem),
+        });
+
+        if (response.ok) {
+            var user= await response.json();
+            alert("Welcome back, " + user.username);
+
+            window.location.href = "/";
+        } else if (response.status == 401) {
+            var msg = await response.json();
+            alert(msg);
+        } else {
+            alert(response.statusText);
+        }
+    };
+</script>
