@@ -110,6 +110,15 @@ module.exports = {
     return res.view('person/paginate', { persons: somePersons, numOfRecords: count });
   },
 
+  populate: async function (req, res) {
+
+    var person = await Person.findOne(req.params.id).populate("consultants");
+
+    if (!person) return res.notFound();
+
+    return res.json(person);
+},
+
 
 
 };
