@@ -16,11 +16,10 @@ module.exports.bootstrap = async function() {
   var hash = await sails.bcrypt.hash('123456', salt);
 
   await User.createEach([
-      { username: "admin", password: hash, role:"admin" },
-      { username: "tester", password: hash, role:"tester" },
-      { username: "visitor", password:hash, role:"visitor"}
+      { username: "admin", password: hash, role:"admin",coins:200     },
+      { username: "tester", password: hash, role:"tester",coins:200 },
+      { username: "visitor", password:hash, role:"visitor",coins:0  }
 
-      // etc.
   ]);
 
     if (await Person.count() > 0) {
@@ -46,9 +45,15 @@ module.exports.bootstrap = async function() {
     {"date":"2020/10/06","createdAt":1603279842023,"updatedAt":1603279842023,"id":6,"title":"Kowloon Third Restaurant Title","restaurant":"Kowloon Third Restaurant","region":"Kowloon","mall":"MegaBox","image":"https://cdn.lifestyleasia.com/wp-content/uploads/sites/2/2020/06/01172325/Felix.jpg","quota":800,"coins":900,"expiryDate":"","detail":"Kowloon Third Restaurant Detail","_id":6},
     ]);
 
+    var qponUser = await User.findOne({username:"admin"});
+    var qpon = await Qpon.findOne({title:"HK First Restaurant Title"});
+
+
+    await User.addToCollection(qponUser.id, "qpons").members(qpon.id);
+
     async function generateUsers() {
       const admin = await User.findOne({username: "admin"});
-      const tester = await User.findOne({username: "tester"});
+      const tester = await User.findOne({username: "member"});
 
     }
 

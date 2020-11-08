@@ -8,7 +8,6 @@
 module.exports = {
 
   attributes: {
-
     username: {
       type: 'string',
       unique: true,
@@ -21,8 +20,11 @@ module.exports = {
 
     role: {
       type: 'string',
-      isIn: ['admin', 'tester', 'visitor'],
+      isIn: ['admin', 'tester', 'visitor','member'],
       defaultsTo: 'visitor'
+    },
+    coins: {
+      type:"number"
     },
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
