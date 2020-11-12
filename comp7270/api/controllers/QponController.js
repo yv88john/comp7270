@@ -43,6 +43,34 @@ module.exports = {
 
     read: async function (req, res) {
 
+      let showRedeemBtn = async function (qponId,userName) {
+        sails.log("Qpon ID : [" + qponId +"]");
+        var user = await User.findOne({username:userName}).populate("qpons");
+        sails.log(JSON.stringify(user));
+        var userRole = user.role;
+        if(userRole=="member" || userRole=="admin") {
+            sails.log("User Qpons");
+            sails.log(user.qpons);
+            if(user.qpons.length > 0) {
+              var qponIdArray = user.qpons.map( x=> x.id);
+              sails.log("qponIdArray : " + qponIdArray);
+              sails.log("qponId :" +qponId);
+              if(qponIdArray.includes(qponId)) {
+                sails.log("false");
+                return false;
+              } else {
+                sails.log("true");
+                return true;
+                
+              }
+            } else {
+              return true;
+            }
+        } else {
+          return false;
+        }
+      };
+
       let thatQpon = await Qpon.findOne(req.params.id);
 
       if (!thatQpon) return res.notFound();
@@ -50,7 +78,8 @@ module.exports = {
       let showRedeemQpon = false;
 
       if(req.session.username) {
-        showRedeemQpon = await sails.helpers.showRedeemBtn(thatQpon.id,req.session.username);
+        showRedeemQpon = await showRedeemBtn(thatQpon.id,req.session.username);
+        //showRedeemQpon = await sails.helpers.showRedeemBtn(thatQpon.id,req.session.username);
       }
 
       return res.view('qpon/detail', { qpon: thatQpon, showRedeemQpon: showRedeemQpon});
