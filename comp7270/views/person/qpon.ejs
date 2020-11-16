@@ -1,0 +1,51 @@
+
+
+  <section class="section">
+    <div class=" columns">
+      <div class="column">
+        <h1 class="title">Redeemed Qpons List</h1>
+        <h2 class="subtitle">
+          Current Balance : <% userBalance %>
+        </h2>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+
+      <% qpons.forEach( function(qpon) {
+          %>
+            <div class="box col-md-4">
+            <a href="./qpon/read/<%= qpon.id %>">
+              <div class="box-image">
+                <figure class="image is-4by3">
+                  <img src="<%= qpon.image%>" >
+                </figure>
+              </div>
+              <div class="box-content">
+                <div class="content">
+                  <%= qpon.restaurant%>
+                  <br>
+                  <%= qpon.title%>
+                  <br>
+                  Coins : <%= qpon.coins%>
+                </div>
+              </div>
+            </div>
+            </a>
+         <%
+       }); %>
+      </div>
+  </section>
+  <script>
+    $(document).ready(function() {
+
+      // Check for click events on the navbar burger icon
+      $(".navbar-burger").click(function() {
+          // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+          $(".navbar-burger").toggleClass("is-active");
+          $(".navbar-menu").toggleClass("is-active");
+      });
+    });
+</script>

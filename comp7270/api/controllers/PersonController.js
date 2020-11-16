@@ -63,6 +63,20 @@ module.exports = {
       return res.ok();
     }
   },
+
+  qpon: async function(req,res) {
+
+    if(req.method == "GET" ) {
+
+      var qpons = await Qpon.find();
+
+      if(!thatPerson) return res.notFound();
+
+      //TODO::Implement list of qpons;
+
+      return res.view('person/qpon', {qpons: qpons});
+    }
+  },
   // search function
   search: async function (req, res) {
 

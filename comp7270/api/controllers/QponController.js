@@ -46,6 +46,7 @@ module.exports = {
       let showRedeemBtn = async function (qponId,userName) {
         sails.log("Qpon ID : [" + qponId +"]");
         var user = await User.findOne({username:userName}).populate("qpons");
+        var qpon = await Qpon.findOne(qponId);
         sails.log(JSON.stringify(user));
         var userRole = user.role;
         if(userRole=="member" || userRole=="admin") {
